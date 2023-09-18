@@ -7,8 +7,9 @@ jobs:
   pipeline:
     name: pipeline
     runs-on: ubuntu-latest
-    strategy: matrix
-      cache: [none, volume, all]
+    strategy: 
+      matrix:
+        cache: [none, volume, all]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
