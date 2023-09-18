@@ -16,30 +16,26 @@ jobs:
         run: cd jenkins && npm i
       - name: Install Dagger CLI
         run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
-      - name: Run Dagger pipeline - NO CACHE
-        run: cd jenkins && dagger run node index.js
-        env:
-          CACHE: none
-      - name: Cleanup Benchmark
-        run: docker rm -fv $(docker ps -aq)
-      - name: Run Dagger pipeline - VOLUMES ONLY CACHE
-        run: cd jenkins && dagger run node index.js
-        env:
-          CACHE: volume
-          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-      - name: Cleanup Benchmark
-        run: docker rm -fv $(docker ps -aq)
-      - name: Run Dagger pipeline - LAYERS ONLY CACHE
-        run: cd jenkins && dagger run node index.js
-        env:
-          CACHE: layers
-          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-      - name: Cleanup Benchmark
-        run: docker rm -fv $(docker ps -aq)
-      - name: Run Dagger pipeline - FULL CACHE
+      - name: Run Dagger pipeline - Control build
         run: cd jenkins && dagger run node index.js
         env:
           CACHE: all
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+      - name: Run Dagger pipeline - NO CACHE
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: none
+      - name: Run Dagger pipeline - VOLUMES ONLY CACHE
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: volume
+      - name: Run Dagger pipeline - LAYERS ONLY CACHE
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: layers
+      - name: Run Dagger pipeline - FULL CACHE
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: all
       - name: Cleanup Benchmark
         run: docker stop $(docker ps -aq)
