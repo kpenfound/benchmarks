@@ -16,7 +16,7 @@ function buildJenkins(client, cache_level) {
   builder = client.container().pipeline("Build Jenkins")
   .from("eclipse-temurin:17-focal")
 
-  if(cache_level != "all") {
+  if(cache_level != "all" && cache_level != "layers") {
     builder = builder.withEnvVariable("BUST", `${Date.now()}`)
   }
   builder = builder.withExec(["apt-get", "update"])
