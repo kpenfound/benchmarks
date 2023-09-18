@@ -23,7 +23,7 @@ jobs:
         run: cd jenkins && dagger run node index.js
         continue-on-error: true
         env:
-          CACHE: ${ matrix.cache }
+          CACHE: ${{ matrix.cache }}
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
       - name: Get docker logs
         run: docker ps --format '{{.Names}}' | xargs -I {} docker logs {}
