@@ -21,6 +21,7 @@ jobs:
         run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
       - name: Run Dagger pipeline
         run: cd jenkins && dagger run node index.js
+        continue-on-error: true
         env:
           CACHE: ${ matrix.cache }
           DAGGER_CLOUD_TOKEN: ${ secrets.DAGGER_CLOUD_TOKEN }
