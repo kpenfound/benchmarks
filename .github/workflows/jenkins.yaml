@@ -4,8 +4,8 @@ on:
     branches: [main]
 
 jobs:
-  pipeline:
-    name: pipeline
+  Cache:
+    name: Cache
     runs-on: ubuntu-latest
     strategy: 
       matrix:
@@ -22,4 +22,5 @@ jobs:
       - name: Run Dagger pipeline
         run: cd jenkins && dagger run node index.js
         env:
-          CACHE: ${matrix.cache}
+          CACHE: ${ matrix.cache }
+          DAGGER_CLOUD_TOKEN: ${ secrets.DAGGER_CLOUD_TOKEN }
