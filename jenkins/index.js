@@ -1,9 +1,8 @@
 ;(async function() {
   let connect = (await import("@dagger.io/dagger")).connect
   connect(async (client) => {
-	await buildJenkins(client.pipeline("no_cache"), "none").sync()
-	await buildJenkins(client.pipeline("volume_cache"), "volume").sync()
-	await buildJenkins(client.pipeline("full_cache"), "all").sync()
+	cache = process.env.CACHE
+	await buildJenkins(client.pipeline("no_cache"), cache).sync()
   }, {LogOutput: process.stdout})
 })()
 
