@@ -4,12 +4,9 @@ on:
     branches: [main]
 
 jobs:
-  Cache:
-    name: Cache
+  NoCache:
+    name: No Cache
     runs-on: ubuntu-latest
-    strategy: 
-      matrix:
-        cache: [none, volume, all]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,9 +18,39 @@ jobs:
         run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
       - name: Run Dagger pipeline
         run: cd jenkins && dagger run node index.js
-        continue-on-error: true
         env:
-          CACHE: ${{ matrix.cache }}
+          CACHE: none
+  VolumeCache:
+    name: Volume Only Cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install deps
+        run: cd jenkins && npm i
+      - name: Install Dagger CLI
+        run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
+      - name: Run Dagger pipeline
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: volume
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-      - name: Get docker logs
-        run: docker ps --format '{{.Names}}' | xargs -I {} docker logs {}
+  FullCache:
+    name: Full Cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install deps
+        run: cd jenkins && npm i
+      - name: Install Dagger CLI
+        run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
+      - name: Run Dagger pipeline
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: all
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
