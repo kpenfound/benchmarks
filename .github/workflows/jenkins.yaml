@@ -1,0 +1,24 @@
+name: jenkins-benchmark
+on:
+  push:
+    branches: [main]
+
+jobs:
+  pipeline:
+    name: pipeline
+    runs-on: ubuntu-latest
+    strategy: matrix
+      cache: ["none", "volume", "all"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install deps
+        run: cd jenkins && npm i
+      - name: Install Dagger CLI
+        run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
+      - name: Run Dagger pipeline
+        run: cd jenkins && dagger run node index.js
+        env:
+          CACHE: ${matrix.cache}
