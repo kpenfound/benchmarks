@@ -20,13 +20,19 @@ jobs:
         run: cd jenkins && dagger run node index.js
         env:
           CACHE: none
+      - name: Cleanup Benchmark
+        run: docker rm -fv $(docker ps -aq)
       - name: Run Dagger pipeline - VOLUME ONLY CACHE
         run: cd jenkins && dagger run node index.js
         env:
           CACHE: volume
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+      - name: Cleanup Benchmark
+        run: docker rm -fv $(docker ps -aq)
       - name: Run Dagger pipeline - FULL CACHE
         run: cd jenkins && dagger run node index.js
         env:
           CACHE: all
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+      - name: Cleanup Benchmark
+        run: docker stop $(docker ps -aq)
