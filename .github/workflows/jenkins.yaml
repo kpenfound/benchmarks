@@ -24,3 +24,5 @@ jobs:
         env:
           CACHE: ${ matrix.cache }
           DAGGER_CLOUD_TOKEN: ${ secrets.DAGGER_CLOUD_TOKEN }
+      - name: Get docker logs
+	run: docker ps --format '{{.Names}}' | xargs -I {} docker logs {}
