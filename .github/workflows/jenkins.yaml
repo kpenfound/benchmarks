@@ -4,8 +4,8 @@ on:
     branches: [main]
 
 jobs:
-  NoCache:
-    name: No Cache
+  jenkins-benchmark:
+    name: Jenkins Benchmark
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
