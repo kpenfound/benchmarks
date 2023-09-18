@@ -28,7 +28,7 @@ function buildJenkins(client, cache_level) {
   .withEnvVariable("M2_HOME", "/opt/apache-maven-3.9.4")
   .withDirectory("/src", source)
   .withWorkdir("/src")
-  if(cache_level != "none") {
+  if(cache_level != "none" && cache_level != "layers") {
     builder = builder.withMountedCache("/root/.m2", maven)
   }
   builder = builder.withExec(["sh", "-c", "/opt/apache-maven-3.9.4/bin/mvn -am -pl war,bom -Pquick-build clean install"])
