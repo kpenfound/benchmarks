@@ -7,6 +7,8 @@ jobs:
   jenkins-benchmark:
     name: Jenkins Benchmark
     runs-on: ubuntu-latest
+    env:
+      DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -20,7 +22,6 @@ jobs:
         run: cd jenkins && dagger run node index.js
         env:
           CACHE: all
-          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
       - name: Run Dagger pipeline - NO CACHE
         run: cd jenkins && dagger run node index.js
         env:
