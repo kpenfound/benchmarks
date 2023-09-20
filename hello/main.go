@@ -26,6 +26,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(output[:300])
+	fmt.Println(output)
 }
 
