@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"dagger.io/dagger"
 )
@@ -15,7 +14,7 @@ func main() {
 	}
 	defer client.Close()
 
-	_, err := client.Pipeline("test").
+	_, err = client.Pipeline("test").
 		Container().
 		From("alpine@sha256:c5c5fda71656f28e49ac9c5416b3643eaa6a108a8093151d6d1afc9463be8e33").
 		WithExec([]string{"apk", "add", "curl"}).
