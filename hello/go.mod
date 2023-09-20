@@ -1,6 +1,6 @@
 module hello
 
-go 1.21.1
+go 1.21
 
 require dagger.io/dagger v0.8.7
 
