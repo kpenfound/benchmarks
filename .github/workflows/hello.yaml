@@ -1,0 +1,23 @@
+name: hello-benchmark
+on:
+  push:
+    branches: [main]
+
+jobs:
+  hello-benchmark:
+    name: Hello Benchmark
+    runs-on: ubuntu-latest
+    env:
+      DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+      - name: Install Dagger CLI
+        run: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sh; cd -; }
+      - name: Run Dagger pipeline
+        run: cd hello && dagger run go run main.go
+      - name: Cleanup Benchmark
+        run: |
+          ENGINE=$(docker ps -aq)
+          docker stop $ENGINE
+          docker logs $ENGINE
