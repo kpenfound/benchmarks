@@ -1,7 +1,7 @@
 name: jenkins-benchmark
 on:
   push:
-    branches: [main]
+    branches: [mainxx]
 
 jobs:
   jenkins-benchmark:
